@@ -1,12 +1,10 @@
-# This Dockerfile creates the Docker image of ParaView (v5.1.2) with OSMesa using llvmpipe.
-
 # FROM ishidakazuya/paraview_5.1.2_mesa-llvm
 FROM ishidakazuya/paraview_5.1.2_mesa-llvm:latest
 
 # MAINTAINER is ishidakauya
 MAINTAINER ishidakazuya
 
-# Install ssh, sshd and supervisord
+# Install OpenSSH server, OpenSSH clients and Supervisord
 RUN yum -y update \
 && yum -y install openssh-server openssh-clients bind-utils epel-release \
 && yum -y install supervisor \
@@ -36,4 +34,3 @@ EXPOSE 22
 
 # ENTRYPOINT is /usr/bin/supervisord
 ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf
-
