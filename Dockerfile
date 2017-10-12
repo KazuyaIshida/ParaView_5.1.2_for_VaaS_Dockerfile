@@ -21,16 +21,20 @@ RUN yum -y update \
 && echo "StrictHostKeyChecking=no" > /root/.ssh/config \
 && chmod 600 /root/.ssh/config \
 && chmod 700 /root/.ssh \
-&& passwd -d root \
-&& echo "[supervisord]" > /etc/supervisord.conf \
-&& echo "nodaemon=true" >> /etc/supervisord.conf \
-&& echo "[program:sshd]" >> /etc/supervisord.conf \
-&& echo "command=/sbin/sshd -D" >> /etc/supervisord.conf \
-&& echo "autostart=true" >> /etc/supervisord.conf \
-&& echo "autorestart=false" >> /etc/supervisord.conf
+&& echo "temporary_password" | passwd --stdin root \
+&& sed -i -e s/nodaemon=false/nodaemon=true/ /etc/supervisord.conf \
+&& echo "[program:sshd]" >> /etc/supervisord.d/sshd.ini \
+&& echo "command=/sbin/sshd -D" >> /etc/supervisord.d/sshd.ini \
+&& echo "stdout_logfile=/var/log/sshd_stdout.log" >> /etc/supervisord.d/sshd.ini \
+&& echo "stderr_logfile=/var/log/sshd_stderr.log" >> /etc/supervisord.d/sshd.ini \
+&& echo "stdout_logfile_maxbytes=1MB" >> /etc/supervisord.d/sshd.ini \
+&& echo "stderr_logfile_maxbytes=1MB" >> /etc/supervisord.d/sshd.ini \
+&& echo "autostart=true" >> /etc/supervisord.d/sshd.ini \
+&& echo "autorestart=false" >> /etc/supervisord.d/sshd.ini
 
 # EXPOSE Port 22
 EXPOSE 22
 
 # ENTRYPOINT is /usr/bin/supervisord
 ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf
+
