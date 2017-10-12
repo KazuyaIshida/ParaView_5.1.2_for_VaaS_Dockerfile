@@ -14,6 +14,7 @@ RUN yum -y update \
 && sed -i -e s@HostKey\ /etc/ssh/ssh_host_ecdsa_key@\#HostKey\ /etc/ssh/ssh_host_ecdsa_key@ /etc/ssh/sshd_config \
 && sed -i -e s@HostKey\ /etc/ssh/ssh_host_ed25519_key@\#HostKey\ /etc/ssh/ssh_host_ed25519_key@ /etc/ssh/sshd_config \
 && sed -i -e s/\#PermitRootLogin\ yes/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
+&& sed -i -e s/\#PermitEmptyPasswords\ no/PermitEmptyPasswords\ yes/ /etc/ssh/sshd_config \
 && ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key \
 && mkdir /root/.ssh \
 && touch /root/.ssh/authorized_keys \
