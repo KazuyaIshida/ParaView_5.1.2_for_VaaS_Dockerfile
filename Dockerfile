@@ -19,7 +19,7 @@ RUN yum -y update \
 && echo "StrictHostKeyChecking=no" > /root/.ssh/config \
 && chmod 600 /root/.ssh/config \
 && chmod 700 /root/.ssh \
-&& echo "temporary_password" | passwd --stdin root \
+&& passwd -d root \
 && sed -i -e s/nodaemon=false/nodaemon=true/ /etc/supervisord.conf \
 && echo "[program:sshd]" >> /etc/supervisord.d/sshd.ini \
 && echo "command=/sbin/sshd -D" >> /etc/supervisord.d/sshd.ini \
