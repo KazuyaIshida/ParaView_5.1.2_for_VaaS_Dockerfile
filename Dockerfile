@@ -16,7 +16,9 @@ RUN yum -y update \
 && sed -i -e s/\#PermitRootLogin\ yes/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
 && ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key \
 && mkdir /root/.ssh \
+&& touch authorized_keys \
 && echo "StrictHostKeyChecking=no" > /root/.ssh/config \
+&& chmod 600 /root/.ssh/authorized_keys \
 && chmod 600 /root/.ssh/config \
 && chmod 700 /root/.ssh \
 && passwd -d root \
@@ -35,4 +37,3 @@ EXPOSE 22
 
 # ENTRYPOINT is /usr/bin/supervisord
 ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf
-
