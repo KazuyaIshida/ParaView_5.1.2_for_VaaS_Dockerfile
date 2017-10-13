@@ -9,12 +9,13 @@ RUN yum -y update \
 && yum -y install openssh-server openssh-clients bind-utils epel-release \
 && yum -y install supervisor \
 && yum clean all \
-&& sed -i -e s/\#Port\ 22/Port\ 22/ /etc/ssh/sshd_config \
-&& sed -i -e s@HostKey\ /etc/ssh/ssh_host_dsa_key@\#HostKey\ /etc/ssh/ssh_host_dsa_key@ /etc/ssh/sshd_config \
-&& sed -i -e s@HostKey\ /etc/ssh/ssh_host_ecdsa_key@\#HostKey\ /etc/ssh/ssh_host_ecdsa_key@ /etc/ssh/sshd_config \
-&& sed -i -e s@HostKey\ /etc/ssh/ssh_host_ed25519_key@\#HostKey\ /etc/ssh/ssh_host_ed25519_key@ /etc/ssh/sshd_config \
-&& sed -i -e s/\#PermitRootLogin\ yes/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
-&& sed -i -e s/\#PermitEmptyPasswords\ no/PermitEmptyPasswords\ yes/ /etc/ssh/sshd_config \
+&& sed -i -e s/\#Port\s22/Port\s22/ /etc/ssh/sshd_config \
+&& sed -i -e s@HostKey\s/etc/ssh/ssh_host_dsa_key@\#HostKey\s/etc/ssh/ssh_host_dsa_key@ /etc/ssh/sshd_config \
+&& sed -i -e s@HostKey\s/etc/ssh/ssh_host_ecdsa_key@\#HostKey\s/etc/ssh/ssh_host_ecdsa_key@ /etc/ssh/sshd_config \
+&& sed -i -e s@HostKey\s/etc/ssh/ssh_host_ed25519_key@\#HostKey\s/etc/ssh/ssh_host_ed25519_key@ /etc/ssh/sshd_config \
+&& sed -i -e s/\#PermitRootLogin\syes/PermitRootLogin\syes/ /etc/ssh/sshd_config \
+&& sed -i -e s/\#PubkeyAuthentication\syes/PubkeyAuthentication\syes/ /etc/ssh/sshd_config \
+&& sed -i -e s/\#PermitEmptyPasswords\sno/PermitEmptyPasswords\syes/ /etc/ssh/sshd_config \
 && ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key \
 && mkdir /root/.ssh \
 && touch /root/.ssh/authorized_keys \
